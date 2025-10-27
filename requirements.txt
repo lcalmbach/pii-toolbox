@@ -1,0 +1,9 @@
+faker
+streamlit
+openpyxl
+streamlit_option_menu
+xlsxwriter
+presidio_analyzer 
+presidio_anonymizer
+chardet
+pymupdf

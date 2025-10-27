@@ -1,0 +1,32 @@
+stages:
+  - deploy
+
+deploy_stage:
+  stage: deploy
+  script:
+    - schtasks /end /tn "$Env:CI_PROJECT_NAME" #end existing task (without this line the restart does not complete)
+    - $app_dir = Join-Path -Path "$Env:APP_INSTALL_DIR" -ChildPath "\web\$Env:CI_PROJECT_NAME"
+    - cd "$app_dir"
+    - git config --global http.sslbackend schannel #because of self signed certs problem
+    - git fetch
+    - git checkout $CI_COMMIT_BRANCH
+    - git pull    
+    - schtasks /run /tn "$Env:CI_PROJECT_NAME" #run existing task
+  tags:
+    - web04
+
+deploy_prod:
+  stage: deploy
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual
+  script:
+    - schtasks /end /tn "$Env:CI_PROJECT_NAME" #end existing task (without this line the restart does not complete)
+    - $app_dir = Join-Path -Path "$Env:APP_INSTALL_DIR" -ChildPath "\web\$Env:CI_PROJECT_NAME"
+    - cd "$app_dir"
+    - git config --global http.sslbackend schannel #because of self signed certs problem
+    - git checkout $CI_DEFAULT_BRANCH    
+    - git pull
+    - schtasks /run /tn "$Env:CI_PROJECT_NAME" #run existing task
+  tags:
+    - web05

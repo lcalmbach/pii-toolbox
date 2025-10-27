@@ -1,0 +1,26 @@
+{ 
+  "rows": 10000,
+  "separator":",",
+  "encoding": "utf-8",
+  "fields": {
+    "id": {
+      "function": "incremental_int",
+      "min": 0,
+      "step": 1,
+      "pct_null": 1
+    },
+    "vorname": {
+      "function": "first_name",
+      "source": "ogd-bs",
+      "gender_field": null,
+      "pct_male": 40,
+      "pct_null": 1
+    },
+    "nachname": {
+      "function": "last_name",
+      "source": "ogd-bs"
+    },
+    "geburtsdatum": {"function": "random_date", "start_date": "1960-01-01", "end_date": "2025-01-01"},
+    "groesse": {"function": "random_float", "mean": 1.75, "std": 0.6}
+  }
+}

@@ -1,0 +1,336 @@
+{
+    "filename": "test.csv",
+    "format": "csv",
+    "separator": ";",
+    "encoding": "utf-8",
+    "rows": 6000,
+    "columns": {
+        "SchülerID": {
+            "data_type": "integer",
+            "faker_function": {
+                "function": "integer_random",
+                "min": 100,
+                "max": 200,
+                "percent_null": 0
+            }
+        },
+        "Wohntyp": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "SchülerName": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "SchülerVorname": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "SchülerGeburtsdatum": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "SchülerGeschlecht": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "SchülerSozialversicheurng": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "SchülerAdresse": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "SchülerAdresse1": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "SchülerAdresse2": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "SchülerPLZ": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "SchülerOrt": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "SchülerMobile": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "SchülerEMail": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "SchülerNationalität": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "SchülerStaatcodeISO": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "SchülerSprache": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "SchülerErstsprache": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "SchulkreisBezeichnung": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "SchulanlageID": {
+            "data_type": "integer",
+            "faker_function": {
+                "function": "integer_random",
+                "min": 100,
+                "max": 200,
+                "percent_null": 0
+            }
+        },
+        "SchulanlageBezeichnung": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "SchulhausID": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "SchulhausBezeichnung": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "KlasseID": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "KlasseBezeichnung": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "KlasseStufe": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "KlasseSchulart": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "KlasseProgrammjahr": {
+            "data_type": "integer",
+            "faker_function": {
+                "function": "integer_random",
+                "min": 100,
+                "max": 200,
+                "percent_null": 0
+            }
+        },
+        "KlasseLehrpersonID": {
+            "data_type": "integer",
+            "faker_function": {
+                "function": "integer_random",
+                "min": 100,
+                "max": 200,
+                "percent_null": 0
+            }
+        },
+        "KlasseLehrpersonAnrede": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "KlasseLehrpersonName": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "KlasseLehrpersonVorname": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "KlasseLehrperson2ID": {
+            "data_type": "integer",
+            "faker_function": {
+                "function": "integer_random",
+                "min": 100,
+                "max": 200,
+                "percent_null": 0
+            }
+        },
+        "KlasseLehrperson2Anrede": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "KlasseLehrperson2Name": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "KlasseLehrperson2Vorname": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "KlasseLehrperson3ID": {
+            "data_type": "integer",
+            "faker_function": {
+                "function": "integer_random",
+                "min": 100,
+                "max": 200,
+                "percent_null": 0
+            }
+        },
+        "KlasseLehrperson3Anrede": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "KlasseLehrperson3Name": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "KlasseLehrperson3Vorname": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "KlasseLehrperson4ID": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "KlasseLehrperson4Anrede": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "KlasseLehrperson4Name": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "KlasseLehrperson4Vorname": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "AdressierungNr": {
+            "data_type": "integer",
+            "faker_function": {
+                "function": "integer_random",
+                "min": 100,
+                "max": 200,
+                "percent_null": 0
+            }
+        },
+        "AdressierungAnrede": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "AdressierungName": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "AdressierungVorname": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "AdressierungStrasse": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "AdressierungHausnummer": {
+            "data_type": "integer",
+            "faker_function": {
+                "function": "integer_random",
+                "min": 100,
+                "max": 200,
+                "percent_null": 0
+            }
+        },
+        "AdressierungPLZ": {
+            "data_type": "integer",
+            "faker_function": {
+                "function": "integer_random",
+                "min": 100,
+                "max": 200,
+                "percent_null": 0
+            }
+        },
+        "AdressierungOrt": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "AdressierungTelefonPrivat": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "AdressierungTelefonGeschäft": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "AdressierungNatel": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "AdressierungEMail": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "AdressierungNr2": {
+            "data_type": "integer",
+            "faker_function": {
+                "function": "integer_random",
+                "min": 100,
+                "max": 200,
+                "percent_null": 0
+            }
+        },
+        "AdressierungAnrede2": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "AdressierungName2": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "AdressierungVorname2": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "AdressierungStrasse2": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "AdressierungHausnummer2": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "AdressierungPLZ2": {
+            "data_type": "integer",
+            "faker_function": {
+                "function": "integer_random",
+                "min": 100,
+                "max": 200,
+                "percent_null": 0
+            }
+        },
+        "AdressierungOrt2": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "AdressierungTelefonPrivat2": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "AdressierungTelefonGeschäft2": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "AdressierungNatel2": {
+            "data_type": "string",
+            "faker_function": null
+        },
+        "AdressierungEMail2": {
+            "data_type": "string",
+            "faker_function": null
+        }
+    }
+}

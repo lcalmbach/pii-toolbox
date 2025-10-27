@@ -1,0 +1,101 @@
+gender,Name,Vorname,kanton,strasse,hausnummer,plz,gemeinde,size,Herzfrequenz,Temperatur
+M,Grieder,Mahamed,BS,Mülhauserstrasse,32,4056,Basel,1.81,194,37.69
+F,Stucki,Hanna,BS,Sperberweg,6,4125,Riehen,1.57,140,36.23
+F,Andrade,Cornelia,BS,Frobenstrasse,42,4053,Basel,1.98,158,35.12
+F,Heckendorn,Petra,BS,Morystrasse,9,4125,Riehen,1.83,113,36.29
+F,Espasandin,Noelle,BS,Nadelberg,13,4051,Basel,1.61,162,35.36
+F,Yilmaz,Samira,BS,Stettengrabenweg,24,4125,Riehen,1.87,148,37.31
+M,von Känel,Leo,BS,Oetlingerstrasse,25,4057,Basel,1.83,153,37.53
+M,Rudin,Daniel,BS,Hauptstrasse,18,4126,Bettingen,1.52,176,36.86
+M,Suzuki,Laurent,BS,Pfaffenlohweg,45,4125,Riehen,1.53,119,35.92
+M,Preite,Peter,BS,Herrengrabenweg,19,4054,Basel,1.65,157,37.44
+M,Cordasco,Santiago,BS,Salinenstrasse,40,4052,Basel,1.91,191,35.29
+M,Yuan,Lean,BS,Birsigstrasse,95,4054,Basel,1.57,136,35.33
+M,Müller,Mahir,BS,Hegenheimerstrasse,111,4055,Basel,1.76,138,37.75
+F,Möhring,Nuran,BS,Pruntruterstrasse,19,4053,Basel,1.95,147,37.15
+F,Domingos,Leyla,BS,Rauracherstrasse,7,4125,Riehen,1.94,103,35.93
+M,Wagner,Hanno,BS,Hebelstrasse,20,4031,Basel,1.79,142,35.16
+F,Sahin,Laura,BS,Schaffhauserrheinweg,85,4058,Basel,1.45,181,36.4
+M,Lieberherr,Stefano,BS,Rudolfstrasse,24,4054,Basel,1.64,151,35.64
+F,Lang,Silvia,BS,Brantgasse,10,4057,Basel,1.3,156,35.01
+M,Sökmen,Markus,BS,Dammerkirchstrasse,49,4056,Basel,1.63,111,35.87
+M,Diaz,Oliver,BS,Tangentenweg,52,4058,Basel,1.73,149,36.08
+M,Völlmin,Christoph,BS,Gundeldingerstrasse,441,4053,Basel,1.62,106,35.78
+M,Schnegg,Andrew,BS,Erlenstrasse,14,4058,Basel,1.62,186,35.3
+F,Imhof,Julia,BS,Drahtzugstrasse,10,4057,Basel,1.91,150,36.51
+M,Huber,Angelo,BS,Lyon-Strasse,43,4053,Basel,1.61,177,35.92
+M,Marino,Admir,BS,Gemsberg,8,4051,Basel,1.59,164,37.48
+M,Brandenberger,Pedro,BS,Petersplatz,3,4051,Basel,1.83,188,36.52
+M,Bader,Philipp,BS,Steinengasse,5,4126,Bettingen,1.37,181,37.12
+F,Weidmann,Isabel,BS,Hochstrasse,8,4053,Basel,1.71,130,36.99
+F,Kunz,Silvia,BS,Flughafenstrasse,74,4056,Basel,1.9,186,36.44
+F,Goldberg,Olha,BS,Im Surinam,104,4058,Basel,1.63,120,35.44
+M,Shala,Lorenz,BS,Erstfeldstrasse,48,4054,Basel,1.8,110,35.31
+F,Kasper,Selma,BS,Arlesheimerstrasse,22,4053,Basel,1.75,110,37.35
+M,Schürch,Dominik,BS,Müllheimerstrasse,173,4057,Basel,2.0,131,36.87
+F,Rudolf,Leonie,BS,Colmarerstrasse,16,4055,Basel,1.61,156,37.89
+M,Jakupi,Jorge,BS,Schliengerweg,20,4057,Basel,1.73,117,36.89
+M,Kernen,Musa,BS,Schöllenenstrasse,15,4054,Basel,1.55,168,35.5
+M,Schneider,Jordan,BS,Markircherstrasse,1,4055,Basel,1.87,146,36.45
+M,Chiquet,Giovanni,BS,Bettingerstrasse,263,4125,Riehen,2.0,116,35.91
+F,Bartos,Caroline,BS,Kandererstrasse,20,4057,Basel,1.5,147,36.21
+M,Cherif,Walter,BS,Friedrich Oser-Strasse,34,4059,Basel,1.82,163,35.79
+M,Claessen,Felix,BS,Paracelsusstrasse,57,4058,Basel,1.47,131,37.56
+M,Popovic,Rodi,BS,Reichensteinerstrasse,18,4053,Basel,1.36,103,37.97
+F,Mata,Lea,BS,Im tiefen Boden,33,4059,Basel,1.8,185,36.03
+M,Silvestro,Viktor,BS,J.J. Balmer-Strasse,10,4053,Basel,1.78,133,37.65
+F,Dias,Sophie,BS,Grenzstrasse,199,4057,Basel,1.78,145,35.3
+M,Lo Piccolo,Simon,BS,Grenzacherweg,18,4125,Riehen,1.61,138,35.27
+F,Reisinger,Elif,BS,Im Westfeld,27,4055,Basel,1.71,145,36.06
+M,Wüthrich,Matthias,BS,Elsässerstrasse,1,4056,Basel,1.79,143,37.34
+M,Krasniqi,Mario,BS,Oberwilerstrasse,90,4054,Basel,1.73,181,37.99
+M,Eze,Sinisa,BS,Hirzbrunnenschanze,41,4058,Basel,1.57,163,35.26
+F,Banholzer,Radmila,BS,Dornacherstrasse,41,4053,Basel,1.38,181,37.99
+M,Henning,Florin,BS,Im Wasenboden,35,4056,Basel,1.97,134,36.83
+M,Senpinar,Loris,BS,Im Rheinacker,17,4058,Basel,1.55,184,37.06
+M,Zeka,Patrick,BS,Hammerstrasse,147,4057,Basel,1.69,109,36.0
+M,Kaiser,Oliver,BS,Lothringerstrasse,136,4056,Basel,1.7,166,36.09
+F,Meier,Karla,BS,Im Westfeld,15,4055,Basel,2.0,136,35.96
+F,Erhart,Catherine,BS,Leonhardsstrasse,30,4051,Basel,1.65,117,36.28
+F,Lauricella,Regula,BS,Im Westfeld,8,4055,Basel,1.32,101,37.41
+M,Wong,Stefano,BS,Efringerstrasse,22,4057,Basel,1.55,187,35.28
+F,Kaiser,Elsa,BS,Im Hirshalm,50,4125,Riehen,1.83,182,37.48
+F,Oettli,Marianne,BS,Am Bachgraben,32,4056,Basel,1.79,122,35.29
+M,Ristic,Ömer,BS,Gellertstrasse,46,4052,Basel,1.49,137,36.19
+F,Schneider,Hilda,BS,Schönaustrasse,51,4058,Basel,1.4,104,35.7
+M,Mader,Thomas,BS,Allmendstrasse,26,4058,Basel,1.78,116,36.15
+M,Waltenspül,Paulo,BS,Vogesenstrasse,19,4056,Basel,1.78,182,37.4
+F,Moura,Feven,BS,Feierabendstrasse,28,4051,Basel,1.54,164,37.06
+M,Selmani,Frank,BS,Im Heimatland,64,4058,Basel,2.0,144,35.14
+F,Meindl,Cosima,BS,Aescherstrasse,16,4054,Basel,1.56,190,36.16
+M,Aeschbach,Nathan,BS,Steinengraben,32,4051,Basel,1.75,108,36.79
+M,Rana,Robin,BS,Hackbergstrasse,4,4125,Riehen,1.8,128,35.42
+F,Breitenstein,Stefanie,BS,Bristenweg,5,4054,Basel,1.9,134,37.77
+M,Inäbnit,Rafael,BS,Morgartenring,163,4054,Basel,1.86,136,35.77
+F,Asani,Katalin,BS,Mittlere Strasse,123,4056,Basel,1.8,180,35.76
+F,Müller,Giulia,BS,Starenstrasse,32,4059,Basel,1.71,104,35.81
+F,Grimm,Rosmarie,BS,Eugen Wullschleger-Strasse,41,4058,Basel,1.51,194,35.26
+F,Suter,Adile,BS,Hebelstrasse,11,4056,Basel,1.89,101,36.03
+M,Aegerter,Dominic,BS,Erlensträsschen,49,4125,Riehen,1.35,150,37.24
+F,Ferreira,Blerina,BS,Rappoltshof,3,4057,Basel,1.86,162,36.27
+M,Stern,Jonas,BS,Redingstrasse,15,4052,Basel,2.0,131,37.9
+F,Stanojlovic,Rita,BS,St. Alban-Ring,201,4052,Basel,1.94,143,35.85
+M,Hebeisen,Lukas,BS,Peter Rot-Strasse,86,4058,Basel,1.62,105,37.05
+F,Hostettler,Anna,BS,Steingrubenweg,61,4125,Riehen,1.82,149,35.87
+M,Burri,Mario,BS,Schweizergasse,19,4054,Basel,1.75,191,35.06
+M,Begani,Dennis,BS,In den Ziegelhöfen,55,4054,Basel,1.95,141,36.31
+F,Ludwig,Gioia,BS,Giornicostrasse,104,4059,Basel,1.59,122,35.52
+M,Rakaj,Colin,BS,Eichhornstrasse,8,4059,Basel,1.92,119,35.49
+F,Leuenberger,Barbara,BS,Meierweg,102,4125,Riehen,1.69,116,37.53
+M,Cruz,Andreas,BS,Neuhausstrasse,31,4057,Basel,2.0,197,37.61
+F,Winkler,Kardelen,BS,Beim Wasserturm,39,4059,Basel,1.5,155,37.64
+F,Hummel,Anahita,BS,Meierweg,70,4125,Riehen,1.99,110,36.16
+F,Villars,Isabelle,BS,Marktplatz,32,4001,Basel,1.82,117,36.73
+M,Ates,Hanspeter,BS,In den Neumatten,62,4125,Riehen,1.81,194,36.46
+F,Wetzel,Eva,BS,Bäumlihofstrasse,55,4058,Basel,1.52,134,36.3
+F,Schweizer,Kerstin,BS,Luzernerring,138,4056,Basel,1.88,150,35.84
+F,Schoop,Marliese,BS,Marignanostrasse,76,4059,Basel,1.45,106,35.11
+M,dos Santos,Stjepan,BS,Seltisbergerstrasse,12,4059,Basel,2.0,178,37.49
+M,Godoy,Hans,BS,Rütiring,30,4125,Riehen,1.43,165,36.3
+F,Spasojevic,Katia,BS,Mooshaldenweg,8,4125,Riehen,1.95,114,35.2
+M,Dagan,Dieter,BS,Oetlingerstrasse,159,4057,Basel,1.68,189,37.26
