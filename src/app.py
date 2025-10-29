@@ -1,7 +1,9 @@
+import io
+import streamlit as st
 from streamlit_option_menu import option_menu
 import streamlit as st
-import anonymizer_data
-import anonymizer_text
+
+
 import texts
 import json
 from pathlib import Path
@@ -10,6 +12,9 @@ from enum import Enum
 import pandas as pd
 import chardet
 import fitz
+from functions import show_functions
+import anonymizer_data
+import anonymizer_text
 
 __version__ = "0.0.6"
 __author__ = "lukas.calmbach@bs.ch"
@@ -21,6 +26,7 @@ app_emoji = "🗣️"
 data_folder = "./src/data/"
 file_path = None # file_path__base + extension
 json_file_path = "./src/data/config.json"
+functions_file_path = "./src/all_functions.json"
 
 st.set_page_config(
     page_title=APP_NAME,
@@ -35,6 +41,7 @@ menu_options = [
     {"Testdaten erstellen": "file-earmark-spreadsheet"},
     {"Dokument Anonymisieren": "file-earmark-font"},
     {"Anleitung": "book"},
+    {"Funktionen": "list"},
 ]
 class MenuIndex(Enum):
     ABOUT = 0
@@ -43,6 +50,7 @@ class MenuIndex(Enum):
     CREATE_TEST_DATA_TABLE = 3
     ANONYMIZE_TEXT = 4
     HELP = 5
+    FUNCTIONS = 6
 
 def get_file_path(filename_only: str)->str:
     return str(Path(data_folder, filename_only))
@@ -110,6 +118,7 @@ def about():
         anleitung_content = file.read()
         st.markdown(anleitung_content, unsafe_allow_html=True)
 
+
 def create_config():
     with st.expander('Hilfe'):
         st.markdown(texts.konfig_erstellen)
@@ -126,6 +135,7 @@ def create_config():
                 generate_config_from_file(file_path)    
     else:
         st.info("Diese Option steht noch nicht zur Verfügung")
+
 
 def anonymize_table():
     with st.expander("Hilfe"):
@@ -147,6 +157,7 @@ def anonymize_table():
             with st.spinner("Anonymisierung läuft..."):
                 p = anonymizer_data.DataMasker(file_path, json_file_path)
                 p.pseudonymize()
+
 
 def create_test_data_table():
     with st.expander('Hilfe'):
@@ -188,12 +199,6 @@ def create_test_data_table():
             p.generate()
             st.success('Die Testdaten wurden erfolgreich generiert und können heruntergeladen werden')
 
-import io
-from pathlib import Path
-import chardet
-import pandas as pd
-import fitz  # PyMuPDF
-import streamlit as st
 
 def anonymize_text():
     def extract_text_from_file(_uploaded_file):
@@ -289,6 +294,12 @@ def main():
         with open("./src/docs/anleitung.md", "r", encoding="utf8") as file:
             anleitung_content = file.read()
             st.markdown(anleitung_content, unsafe_allow_html=True)
+    elif menu_labels.index(menu_action) == MenuIndex.FUNCTIONS.value:
+        # open anleitung file
+        with open(functions_file_path, "r", encoding="utf8") as file:
+            anleitung_content = json.load(file)
+            show_functions(anleitung_content)
+            
 
     display_app_info()
 

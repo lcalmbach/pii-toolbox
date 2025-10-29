@@ -557,10 +557,15 @@ class DataMasker:
                 for column, success in results.items():
                     st.write(f"Pseudonymisierung von Spalte: {column} {result_icons[success]}")
         
+        def display_input_data():
+            """Show the pseudonymized DataFrame."""
+            with st.expander("Input"):
+                st.dataframe(self.data_in_df)
+
         def display_output_data():
             """Show the pseudonymized DataFrame."""
-            st.markdown("### Output")
-            st.dataframe(self.data_out_df)
+            with st.expander("Output"):
+                st.dataframe(self.data_out_df)
         
         def show_download_section():
             """Display success message and download button."""
@@ -575,6 +580,7 @@ class DataMasker:
             )
 
         format_columns()
+        display_input_data()
         results = pseudonymize_all_columns()
         display_processing_results(results)
         display_output_data()
@@ -740,10 +746,7 @@ class DataMasker:
             if pd.isna(phone_number):
                 return None
             else:    
-                try:
-                    digits = re.findall(r'\d', phone_number)
-                except:
-                    pass
+                digits = re.findall(r'\d', phone_number)
                 if len(digits) < 7:
                     raise ValueError("Phone number must have at least 7 digits.")
                 
