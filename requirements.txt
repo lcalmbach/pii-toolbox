@@ -7,3 +7,4 @@ presidio_analyzer
 presidio_anonymizer
 chardet
 pymupdf
+streamlit-aggrid-1.1.9

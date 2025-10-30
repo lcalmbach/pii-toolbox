@@ -16,7 +16,7 @@ from functions import show_functions
 import anonymizer_data
 import anonymizer_text
 
-__version__ = "0.0.6"
+__version__ = "0.0.7"
 __author__ = "lukas.calmbach@bs.ch"
 AUTHOR_NAME = 'Lukas Calmbach'
 VERSION_DATE = "2025-02-05"
@@ -26,7 +26,6 @@ app_emoji = "🗣️"
 data_folder = "./src/data/"
 file_path = None # file_path__base + extension
 json_file_path = "./src/data/config.json"
-functions_file_path = "./src/all_functions.json"
 
 st.set_page_config(
     page_title=APP_NAME,
@@ -295,11 +294,7 @@ def main():
             anleitung_content = file.read()
             st.markdown(anleitung_content, unsafe_allow_html=True)
     elif menu_labels.index(menu_action) == MenuIndex.FUNCTIONS.value:
-        # open anleitung file
-        with open(functions_file_path, "r", encoding="utf8") as file:
-            anleitung_content = json.load(file)
-            show_functions(anleitung_content)
-            
+        show_functions()
 
     display_app_info()
 
