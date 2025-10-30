@@ -82,22 +82,8 @@ Die Konfigurationsdatei ist eine JSON-Datei, in der jede zu pseudonymisierende S
 }
 ```
 
-## Pseudonymisierungsfunktionen
-Die folgenden Funktionen sind implementiert und können in der Konfigurationsdatei als Wert für faker_function verwendet werden:
-
-Pseudonymisierungsfunktionen
-Die folgenden Funktionen sind implementiert und können in der Konfigurationsdatei als Wert für faker_function verwendet werden:
-
-| Funktion         | Beschreibung                                                                                       | Parameter                                                                                   |
-| ---------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| `random_number`  | Ersetzt jeden Wert in der Spalte durch eine Zufallszahl im Bereich von `min_value` bis `max_value`. | `{"min_value": 200000, "max_value": 700000, "unique": true}`                                |
-| `random_address` | Ersetzt Adressen (Straße und Hausnummer) durch zufällige Adressen am selben Ort.                    | `{"unique_address_fields": ["addresse", "postal_code"], "location_code_col": "plz", "location_data_col": "postal_code"}` |
-| `blur_address`   | Ersetzt Adressen durch andere Adressen in derselben Straße, indem die Hausnummer geändert wird.    | `{"unique_address_fields": ["addresse", "postal_code"], "location_code_col": "plz", "location_data_col": "postal_code"}` |
-| `first_name`     | Ersetzt Vornamen durch zufällige Vornamen. Geschlechtsbasierte Namen können durch Angabe einer Geschlechtsspalte generiert werden. | `{"use_gender_col": true, "gender_col": "student_gender", "female": "2", "male": "1"}` |
-| `last_name`      | Ersetzt Nachnamen durch zufällige Nachnamen. Geschlechtsbasierte Namen können durch Angabe einer Geschlechtsspalte sowie der codes für männlich/weiblich generiert werden. | `{"use_gender_col": true, "gender_col": "student_gender", "female": "2", "male": "1"}` |
-| `shuffle_codes`      | Mischelt Codes. Es wird zuerst eine Liste der Codes aus der Quellspalte erstellt, die Zielspalte wird mit Zufallswerten aus dieser Liste gefüllt. Leere Zellen in der Quell-Spalte bleiben auch in der Zielspalte leer  | `{}` |
-| `fill_with_random_distribution`      | Füllt die Zielspalte mit Zahlen aus einer Normalverteilung. Mittelwert und Standardabweichung werden der  Normalverteilung werden zuerst aus den Zahlen der Quellspalte berechnet. In der Zielspalte werden anschliessend aus dieser Verteilung Zufallszahlen generiert, deren Verteilung damit der Verteilung der Quellspalte ähnelt. Die Anzahl Dezimalstellen der Zielspalte kann mit dem Parameter *decimals* definiert werden.| `{"decimals": 2}` |
-
 
 ### Testdaten erstellen
 todo!
+
+### Dokumente pseudonymisieren
