@@ -14,15 +14,20 @@ from enum import Enum
 from file_handler import open_file
 from typing import Dict, Any
 from utils.type_detection import detect_column_types
+from utils.general import show_download_section
 
 fake = Faker("de_DE")
 url_addresses = "https://data.bs.ch/api/explore/v2.1/catalog/datasets/100259/exports/csv?lang=de&timezone=Europe%2FBerlin&use_labels=false&delimiter=%3B&select=str_name,hausnr,hausnr_zus,plz,ort"
 url_first_names = f"https://data.bs.ch/api/explore/v2.1/catalog/datasets/100129/exports/csv?lang=de&timezone=Europe%2FBerlin&use_labels=false&delimiter=%3B&select=vorname,geschlecht,anzahl&where=jahr={datetime.now().year-2}"
 url_last_names = f"https://data.bs.ch/api/explore/v2.1/catalog/datasets/100127/exports/csv?lang=de&timezone=Europe%2FBerlin&use_labels=false&delimiter=%3B&select=nachname,anzahl&where=jahr={datetime.now().year-2}"
-address_file = "./src/data/100259.parquet"
-first_name_file = "./src/data/100129.parquet"
-last_name_file = "./src/data/100127.parquet"
-plz_file = "./src/data/plz.csv"
+
+input_folder = Path("./src/input/")
+output_folder = Path("./src/output/")
+data_folder = Path("./src/data/")
+address_file = data_folder / "100259.parquet"
+first_name_file = data_folder / "100129.parquet"
+last_name_file = data_folder / "100127.parquet"
+plz_file = data_folder / "plz.csv"
 
 OGDBS = 'ogd-bs'
 
@@ -190,29 +195,50 @@ class DataGenerator():
         self.cantons = list(self.plz['kanton_name_kurz'].unique())
 
     def remove_values(self, arr: np.array, pct: float):
-        if pct > 0:
-            num_missing = int(pct / 100 * self.rows)
-            missing_indices = random.sample(range(self.rows), num_missing)
-            arr = arr.astype(object)
+        # Ensure pct is numeric
+        try:
+            pct_val = float(pct)
+        except Exception:
+            pct_val = 0.0
+
+        # If percentage is 100 or more, return an array of None of length rows
+        if pct_val >= 100:
+            return np.array([None] * self.rows, dtype=object)
+
+        # If percentage is positive, randomly set that share of values to None
+        if pct_val > 0:
+            num_missing = int(pct_val / 100.0 * self.rows)
+            # clamp
+            num_missing = max(0, min(self.rows, num_missing))
+            if len(arr) != self.rows:
+                # try to create an array of appropriate length
+                try:
+                    arr = np.array(arr, dtype=object)
+                    if arr.size < self.rows:
+                        # pad with None
+                        arr = np.concatenate([arr, np.array([None] * (self.rows - arr.size), dtype=object)])
+                except Exception:
+                    arr = np.array([None] * self.rows, dtype=object)
+            else:
+                arr = arr.astype(object)
+            missing_indices = random.sample(range(self.rows), num_missing) if num_missing > 0 else []
             for idx in missing_indices:
                 arr[idx] = None
-        elif pct >=100:
-            arr = np.array(self.rows, None, dtype=object)
         return arr
 
     def incremental_int(self, config:dict, data: pd.DataFrame):
         arr = np.array([])
-        if config['sequential']:
-            arr = np.arange(config['min_value'], config['min_value'] + self.rows)
+        seq = config.get('sequential', False)
+        min_v = config.get('min_value', config.get('min', 0))
+        max_v = config.get('max_value', config.get('max', min_v + self.rows))
+        if seq:
+            arr = np.arange(min_v, min_v + self.rows)
         else:
-            arr = np.random.randint(config['min_value'], config['max_value'], self.rows)
-        
-        if config['percent_null'] > 0:
-            num_missing = int(0.1 * self.rows)
-            missing_indices = random.sample(range(self.rows), num_missing)
-            arr = arr.astype(object)
-            for idx in missing_indices:
-                arr[idx] = None
+            arr = np.random.randint(min_v, max_v, self.rows)
+
+        pct_null = config.get('percent_null', 0)
+        if pct_null and pct_null > 0:
+            arr = self.remove_values(arr, pct_null)
         return arr
 
     def random_int(self, config:dict, data: pd.DataFrame):
@@ -359,15 +385,34 @@ class DataGenerator():
             arr = self.remove_values(arr, config['percent_null'] )
         return arr
 
-    def address(self, config: dict):
-        if config['canton']=='list':
+    def address(self, config: dict, data:pd.DataFrame):
+        mapping = {
+            "streetname": "str_name",
+            "housenumber": "hausnr",
+            "housenumber_addition": "hausnr_zus",
+            "plz": "plz",
+            "location": "ort",
+        }
+
+        fields = [v for k, v in mapping.items() if k in config["fields"]]
+        df = self.addresses[fields].sample(n=self.rows, random_state=42)
+        if 'hausnr' in df.columns:
+            df['hausnr'] = df['hausnr'].astype(int)
+        df.columns = config['labels']
+        return df
+            
+    def address_list(self, config: dict):
+        """
+        Liefert eine Liste von Ortsnamen entsprechend der Konfiguration (ersetzt die vorherige 'address' Variante).
+        """
+        if config.get('canton')=='list':
             df = self.plz[self.plz['gemeinde_name'].isin(config['canton'])]
-        elif is_valid_canton(self.cantons, config['canton']):
+        elif is_valid_canton(self.cantons, config.get('canton')):
             df = self.plz[self.plz['kanton_name_kurz']]
         else:
             df = self.plz
         arr = np.random.choice(df['gemeinde_name'], size=self.rows)
-        arr = self.remove_values(arr, config['percent_null'] )
+        arr = self.remove_values(arr, config.get('percent_null', 0))
         return arr
     
     def list_string(self, config: dict, data:pd.DataFrame):
@@ -377,7 +422,7 @@ class DataGenerator():
             arr = np.random.choice(config["list"], self.rows)
         arr = self.remove_values(arr, config['percent_null'] )
         return arr
-
+    
     def streetname (self, config: dict, data:pd.DataFrame):
         if config["source"]==OGDBS:
             if "location_field" in config:
@@ -392,7 +437,35 @@ class DataGenerator():
 
         arr = self.remove_values(arr, config['percent_null'] )
         return arr
-   
+    
+    def ahv_nr(self, config: dict, data:pd.DataFrame):
+        """Generate an array of fake Swiss AHV numbers (format 756.XXXX.XXXX.XX).
+
+        Returns a numpy array of length self.rows. Applies percent_null if present in config.
+        """
+        def gen_one():
+            country_code = "756"
+            unique_identifier = f"{random.randint(0, 99999999):08d}"
+            base_number = f"{country_code}{unique_identifier}"
+
+            def calculate_checksum(number: str) -> int:
+                weights = [1, 3]
+                total = 0
+                for i, digit in enumerate(number):
+                    weight = weights[i % 2]
+                    total += int(digit) * weight
+                remainder = total % 11
+                checksum = (11 - remainder) if remainder != 0 else 0
+                return checksum if checksum < 10 else 0
+
+            checksum = calculate_checksum(base_number)
+            return f"{country_code}.{unique_identifier[:4]}.{unique_identifier[4:]}.{checksum:02d}"
+
+        arr = np.array([gen_one() for _ in range(self.rows)], dtype=object)
+        if 'percent_null' in config:
+            arr = self.remove_values(arr, config['percent_null'])
+        return arr
+
     def address(self, config: dict, data:pd.DataFrame):
         mapping = {
             "streetname": "str_name",
@@ -408,7 +481,79 @@ class DataGenerator():
             df['hausnr'] = df['hausnr'].astype(int)  
         df.columns = config['labels']
         return df
-            
+    
+    def incremental_date(self, config: dict, data: pd.DataFrame):
+        start_date = datetime.strptime(config['start_date'], "%Y-%m-%d")
+        delta_days = config.get('delta_days', 1)
+        arr = np.array([(start_date + timedelta(days=i * delta_days)).strftime("%Y-%m-%d") for i in range(self.rows)])
+        
+        if 'percent_null' in config:
+            arr = self.remove_values(arr, config['percent_null'] )
+        return arr
+
+    def random_date(self, config: dict, data: pd.DataFrame):
+        start_date = datetime.strptime(config['start_date'], "%Y-%m-%d")
+        end_date = datetime.strptime(config['end_date'], "%Y-%m-%d")
+        delta = (end_date - start_date).days
+        arr = np.array([(start_date + timedelta(days=random.randint(0, delta))).strftime("%Y-%m-%d") for _ in range(self.rows)])
+        
+        if 'percent_null' in config:
+            arr = self.remove_values(arr, config['percent_null'] )
+        return arr
+
+    def normal_date(self, config: dict, data: pd.DataFrame):
+        """Generate dates sampled from a normal distribution around average_date.
+
+        Config keys:
+        - average_date (YYYY-MM-DD) : center of the distribution
+        - std_days (float) : standard deviation in days
+        - min_date (YYYY-MM-DD, optional) : earliest allowed date
+        - max_date (YYYY-MM-DD, optional) : latest allowed date
+        - percent_null (optional)
+        """
+        # determine center date
+        avg = config.get('average_date')
+        try:
+            if avg:
+                center = datetime.strptime(avg, "%Y-%m-%d")
+            else:
+                center = datetime.now()
+        except Exception:
+            center = datetime.now()
+
+        std_days = float(config.get('std_days', 30.0))
+
+        min_dt = None
+        max_dt = None
+        if 'min_date' in config:
+            try:
+                min_dt = datetime.strptime(config['min_date'], "%Y-%m-%d")
+            except Exception:
+                min_dt = None
+        if 'max_date' in config:
+            try:
+                max_dt = datetime.strptime(config['max_date'], "%Y-%m-%d")
+            except Exception:
+                max_dt = None
+
+        # sample offsets and build dates
+        offsets = np.random.normal(loc=0.0, scale=std_days, size=self.rows)
+        offsets = np.round(offsets).astype(int)
+
+        dates = []
+        for off in offsets:
+            d = center + timedelta(days=int(off))
+            if min_dt and d < min_dt:
+                d = min_dt
+            if max_dt and d > max_dt:
+                d = max_dt
+            dates.append(d.strftime("%Y-%m-%d"))
+
+        arr = np.array(dates, dtype=object)
+        if 'percent_null' in config:
+            arr = self.remove_values(arr, config['percent_null'])
+        return arr
+
     def generate(self):
         data = pd.DataFrame()
         for key, config in self.columns.items():
@@ -435,8 +580,6 @@ class DataGenerator():
                 data[key] = self.location(config, data)
             elif config["function"] == "plz4":
                 data[key] = self.plz4(config, data)
-            elif config["function"] == "random_date":
-                pass
             elif config["function"] == "list_string":
                 data[key] = self.list_string(config, data)
             elif config["function"] == "streetname":
@@ -445,12 +588,20 @@ class DataGenerator():
                 df = self.address(config, data)                
                 data = pd.concat([data.reset_index(drop=True), df.reset_index(drop=True)], axis=1)
             elif config["function"] == "ahv_nr":
-                pass # df = self.ahv_nr(config, data)
+                data[key] = self.ahv_nr(config, data)
+            elif config["function"] == "incremental_date":
+                data[key] = self.incremental_date(config, data)
+            elif config["function"] == "random_date":
+                data[key] = self.random_date(config, data)
+            elif config["function"] == "normal_date":
+                data[key] = self.normal_date(config, data)
 
         df = pd.DataFrame(data)
         with st.expander("Output"):
             st.write(df)
             data.to_csv(self.filename, index=False)
+        show_download_section(df)
+        
             
 
 class DataMasker:
@@ -459,7 +610,17 @@ class DataMasker:
         with open(config_path, "r",  encoding="utf-8") as config_file:
             self.config = json.load(config_file)
 
-        self.data_in_df = pd.read_excel(file_path)
+        # Use the project file handler to open files flexibly (csv/xlsx/...)
+        try:
+            self.data_in_df = open_file(file_path)
+        except Exception:
+            # fallback to pandas read_excel for legacy
+            try:
+                self.data_in_df = pd.read_excel(file_path)
+            except Exception as e:
+                st.error(f"Fehler beim Einlesen der Datei: {e}")
+                self.data_in_df = pd.DataFrame()
+
         self.data_out_df = self.data_in_df.copy()
         self.addresses = get_ogd_data(url=url_addresses, file=address_file)
         self.first_names = get_ogd_data(url=url_first_names, file=first_name_file)
@@ -498,13 +659,17 @@ class DataMasker:
         ahv_number = f"{country_code}.{unique_identifier[:4]}.{unique_identifier[4:]}.{checksum:02d}"
         return ahv_number
 
-    def save_pseudonymized(self, file_path):
+    def save_anonymized(self, file_path):
         """
-        Save the pseudonymized DataFrame to a file.
+        Save the anonymized DataFrame to a file.
 
-        :param file_path: File path to save the pseudonymized DataFrame
+        :param file_path: File path to save the anonymized DataFrame
         """
-        self.df.to_excel(file_path, index=False)
+        # Ensure we save the output DataFrame
+        try:
+            self.data_out_df.to_excel(file_path, index=False)
+        except Exception as e:
+            st.error(f"Fehler beim Speichern der anonymisierten Datei: {e}")
 
     def delete_rows_with_missing_values(self):
         """
@@ -520,11 +685,11 @@ class DataMasker:
         
         self.data_out_df = self.data_in_df.copy()
 
-    def pseudonymize(self):
+    def anonymize(self):
         """
-        Pseudonymize the columns in the DataFrame based on the configuration.
+        Anonymize the columns in the DataFrame based on the configuration.
 
-        :return: DataFrame with pseudonymized columns
+        :return: DataFrame with anonymized columns
         """
 
         def to_excel(df):
@@ -542,12 +707,12 @@ class DataMasker:
                     s = s.replace([np.inf, -np.inf], pd.NA).astype('Int64')          # allow missing values
                     self.data_in_df[column] = s.astype(str) 
 
-        def pseudonymize_all_columns():
+        def anonymize_all_columns():
             """Process all configured columns and return results."""
             results = {}
             for column in self.data_in_df.columns:
                 if column in self.config['columns'] and self.config['columns'][column]['function']:
-                    results[column] = self.pseudonymize_column(column)
+                    results[column] = self.anonymize_column(column)
             return results
         
         def display_processing_results(results):
@@ -555,44 +720,32 @@ class DataMasker:
             with st.expander("Spalten", expanded=True):
                 result_icons = {True: "✔️", False: "❌"}
                 for column, success in results.items():
-                    st.write(f"Pseudonymisierung von Spalte: {column} {result_icons[success]}")
+                    st.write(f"Anonymisierung von Spalte: {column} {result_icons[success]}")
         
         def display_input_data():
-            """Show the pseudonymized DataFrame."""
+            """Show the anonymized DataFrame."""
             with st.expander("Input"):
                 st.dataframe(self.data_in_df)
 
         def display_output_data():
-            """Show the pseudonymized DataFrame."""
+            """Show the anonymized DataFrame."""
             with st.expander("Output"):
                 st.dataframe(self.data_out_df)
         
-        def show_download_section():
-            """Display success message and download button."""
-            st.success(
-                f"{len(self.data_out_df)} Zeilen wurden erfolgreich pseudonymisiert und die Datei kann heruntergeladen werden. Die Quelldatei wurde gelöscht."
-            )
-            st.download_button(
-                label="Pseudonymisierte Datei herunterladen",
-                data=to_excel(self.data_out_df),
-                file_name="pseudonymized_data.xlsx",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            )
-
         format_columns()
         display_input_data()
-        results = pseudonymize_all_columns()
+        results = anonymize_all_columns()
         display_processing_results(results)
         display_output_data()
-        show_download_section()
+        show_download_section(self.data_out_df)
         
 
-    def pseudonymize_column(self, column):
+    def anonymize_column(self, column):
         """
-        Pseudonymize a column in a DataFrame using a faker function.
+        Anonymize a column in a DataFrame using a faker function.
 
-        :param column: Column name to pseudonymize
-        :return: DataFrame with pseudonymized column
+        :param column: Column name to anonymize
+        :return: DataFrame with anonymized column
         """
         ok = True
         config = self.config['columns'][column]
@@ -687,7 +840,7 @@ class DataMasker:
     def formatted_number(self, column, settings):
         """
         this methed is useful for phone and other formatted number,
-        where you want to keep the pseudonym close to the original by
+        where you want to keep the anonymize close to the original by
         only chaing the last n numbers ("replace_last_digits)
 
         :param column: The column to add random days to.

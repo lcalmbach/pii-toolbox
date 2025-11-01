@@ -99,6 +99,19 @@ function_dict = {
     }
 """
   },
+  "normal_date": {
+    "description": "Erzeugt eine Liste von normalverteilten Daten mit gegebenen Mittelwert und Standardabweichung.",
+    "parameters": ["average_date", "std_days"],
+    "defaults": ["2024-01-01", 30],
+    "help": ["Mittelpunkt des Zeitintervalls", "Standardabweichung in Tagen"],
+    "example": """
+"Feld1": {
+      "data_type": "date",
+      "function": "normal_date",
+      "average_date": "2024-01-01",
+      "std_days": 30
+    }
+"""},
   "date_add_random_days": {
     "description": "Verschiebt ein Datum zufällig um eine Anzahl Tage innerhalb eines Bereichs.",
     "parameters": ["lower", "upper"],

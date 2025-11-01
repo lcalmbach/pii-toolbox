@@ -1,11 +1,11 @@
 {
-    "filename": "test2.csv",
+    "filename": "test.csv",
     "format": "csv",
     "separator": ";",
     "encoding": "utf-8",
-    "rows": 6000,
+    "rows": 100,
     "columns": {
-        "gender": {
+        "Geschlecht": {
             "data_type": "string",
             "function": "list_string",
             "list": ["M","F"],
@@ -22,24 +22,24 @@
             "data_type": "string",
             "function": "first_name",
             "source": "ogd-bs",
-            "gender_field": "gender",
+            "gender_field": "Geschlecht",
             "gender_field_male_identfier": "M",
             "percent_null": 0
         },
-        "kanton": {
+        "Kanton": {
             "data_type": "string",
             "function": "list_string",
             "list": ["BS"],
             "percent_null": 0
         },
-        "plz": {
+        "PLZ": {
             "data_type": "int",
             "function": "plz4",
-            "canton_field": "kanton",
+            "canton_field": "Kanton",
             "canton_field_version": "kanton_name_kurz",
             "percent_null": 0
         },
-        "size": {
+        "Körpergrösse": {
             "data_type": "float",
             "function": "normal_float",
             "digits": 2,
@@ -52,8 +52,8 @@
         "Herzfrequenz": {
             "data_type": "integer",
             "function": "random_int",
-                "min": 100,
-                "max": 200,
+                "min": 90,
+                "max": 180,
                 "percent_null": 0
         },
         "Temperatur": {
@@ -63,6 +63,28 @@
             "min": 35,
             "max": 38,
             "percent_null": 0    
-        }    
+        },
+        "Messdatum": {
+            "data_type": "date",
+            "function": "incremental_date",
+            "start_date": "2025-01-01",
+            "step_period": "day",
+            "step": 1   
+        },
+        "Geburtstag": {
+            "data_type": "date",
+            "function": "random_date",
+            "start_date": "1945-01-01",
+            "end_date": "2010-12-31",
+            "step": 1   
+        },
+        "Eintritt Programm": {
+            "data_type": "date",
+            "function": "normal_date",
+            "average_date": "1990-01-01",
+            "std_days": 730   
+        }                        
+
+
     }
 }

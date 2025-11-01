@@ -1,0 +1,321 @@
+{
+  "filename": "src\\data\\schueler.xlsx",
+  "format": ".xlsx",
+  "separator": ";",
+  "encoding": "utf-8",
+  "rows": 30,
+  "columns": {
+    "SchülerID": {
+      "data_type": "integer",
+      "function": "random_int",
+      "min": 10000,
+      "max": 20000
+    },
+    "Wohntyp": {
+      "data_type": "string",
+      "function": null
+    },
+    "SchülerName": {
+      "data_type": "string",
+      "function": "last_name",
+      "source":"ogd-bs"
+      
+    },
+    "SchülerVorname": {
+      "data_type": "string",
+      "function": "first_name",
+      "source":"ogd-bs",
+      "gender_field": "SchülerGeschlecht",
+      "gender_field_male_identfier": "1"
+    },
+    "SchülerGeburtsdatum": {
+      "data_type": "string",
+      "function": "date_add_random_days",
+      "lower": -10,
+      "upper": 10
+    },
+    "SchülerGeschlecht": {
+      "data_type": "integer",
+      "function": null
+    },
+    "SchülerSozialversicheurng": {
+      "data_type": "string",
+      "function": "ahv_nr"
+    },
+    "SchülerAdresse": {
+      "data_type": "string",
+      "function": "streetname_housenumber",
+      "source": "ogd-bs",
+      "plz_field": "SchülerPLZ"
+    },
+    "SchülerAdresse1": {
+      "data_type": "string",
+      "function": null
+    },
+    "SchülerAdresse2": {
+      "data_type": "string",
+      "function": "streetname_housenumber",
+      "source": "ogd-bs",
+      "plz_field": "SchülerPLZ"
+    },
+    "SchülerPLZ": {
+      "data_type": "string",
+      "function": null
+    },
+    "SchülerOrt": {
+      "data_type": "string",
+      "function": null
+    },
+    "SchülerMobile": {
+      "data_type": "string",
+      "function": "phone_nr",
+      "cc": ["+41"],
+      "ndc": ["76","77","78","79"],
+      "formats": ["+xx xx xxx xx xx", "+xx xx xxx xxxx",  "xxx xxx xxxx"],
+      "formats_weights": [0.1, 0.4, 0.5]
+    },
+    "SchülerEMail": {
+      "data_type": "string",
+      "function": "email",
+      "first_name_field": "SchülerVorname",
+      "last_name_field": "SchülerName",
+      "providers": ["gmail.com", "bluewin.ch", "gmx.ch", "hotmail.com"]
+    },
+    "SchülerNationalität": {
+      "data_type": "string",
+      "function": null
+    },
+    "SchülerStaatcodeISO": {
+      "data_type": "string",
+      "function": null
+    },
+    "SchülerSprache": {
+      "data_type": "string",
+      "function": "shuffle_codes"
+    },
+    "SchülerErstsprache": {
+      "data_type": "string",
+      "function": null
+    },
+    "SchulkreisBezeichnung": {
+      "data_type": "string",
+      "function": null
+    },
+    "SchulanlageID": {
+      "data_type": "integer",
+      "function": "random_int",
+      "min": 100,
+      "max": 200
+    },
+    "SchulanlageBezeichnung": {
+      "data_type": "string",
+      "function": null
+    },
+    "SchulhausID": {
+      "data_type": "string",
+      "function": null
+    },
+    "SchulhausBezeichnung": {
+      "data_type": "string",
+      "function": null
+    },
+    "KlasseID": {
+      "data_type": "string",
+      "function": null
+    },
+    "KlasseBezeichnung": {
+      "data_type": "string",
+      "function": null
+    },
+    "KlasseStufe": {
+      "data_type": "string",
+      "function": null
+    },
+    "KlasseSchulart": {
+      "data_type": "string",
+      "function": null
+    },
+    "KlasseProgrammjahr": {
+      "data_type": "integer",
+      "function": "random_int",
+      "min": 100,
+      "max": 200
+    },
+    "KlasseLehrpersonID": {
+      "data_type": "integer",
+      "function": "random_int",
+      "min": 100,
+      "max": 200
+    },
+    "KlasseLehrpersonAnrede": {
+      "data_type": "string",
+      "function": null
+    },
+    "KlasseLehrpersonName": {
+      "data_type": "string",
+      "function": null
+    },
+    "KlasseLehrpersonVorname": {
+      "data_type": "string",
+      "function": null
+    },
+    "KlasseLehrperson2ID": {
+      "data_type": "integer",
+      "function": "random_int",
+      "min": 100,
+      "max": 200
+    },
+    "KlasseLehrperson2Anrede": {
+      "data_type": "string",
+      "function": null
+    },
+    "KlasseLehrperson2Name": {
+      "data_type": "string",
+      "function": null
+    },
+    "KlasseLehrperson2Vorname": {
+      "data_type": "string",
+      "function": null
+    },
+    "KlasseLehrperson3ID": {
+      "data_type": "integer",
+      "function": "random_int",
+      "min": 100,
+      "max": 200
+    },
+    "KlasseLehrperson3Anrede": {
+      "data_type": "string",
+      "function": null
+    },
+    "KlasseLehrperson3Name": {
+      "data_type": "string",
+      "function": null
+    },
+    "KlasseLehrperson3Vorname": {
+      "data_type": "string",
+      "function": null
+    },
+    "KlasseLehrperson4ID": {
+      "data_type": "string",
+      "function": null
+    },
+    "KlasseLehrperson4Anrede": {
+      "data_type": "string",
+      "function": null
+    },
+    "KlasseLehrperson4Name": {
+      "data_type": "string",
+      "function": null
+    },
+    "KlasseLehrperson4Vorname": {
+      "data_type": "string",
+      "function": null
+    },
+    "AdressierungNr": {
+      "data_type": "integer",
+      "function": "random_int",
+      "min": 100,
+      "max": 200
+    },
+    "AdressierungAnrede": {
+      "data_type": "string",
+      "function": null
+    },
+    "AdressierungName": {
+      "data_type": "string",
+      "function": null
+    },
+    "AdressierungVorname": {
+      "data_type": "string",
+      "function": null
+    },
+    "AdressierungStrasse": {
+      "data_type": "string",
+      "function": null
+    },
+    "AdressierungHausnummer": {
+      "data_type": "integer",
+      "function": "random_int",
+      "min": 100,
+      "max": 200
+    },
+    "AdressierungPLZ": {
+      "data_type": "integer",
+      "function": "random_int",
+      "min": 100,
+      "max": 200
+    },
+    "AdressierungOrt": {
+      "data_type": "string",
+      "function": null
+    },
+    "AdressierungTelefonPrivat": {
+      "data_type": "string",
+      "function": null
+    },
+    "AdressierungTelefonGeschäft": {
+      "data_type": "string",
+      "function": null
+    },
+    "AdressierungNatel": {
+      "data_type": "string",
+      "function": null
+    },
+    "AdressierungEMail": {
+      "data_type": "string",
+      "function": null
+    },
+    "AdressierungNr2": {
+      "data_type": "integer",
+      "function": "random_int",
+      "min": 100,
+      "max": 200
+    },
+    "AdressierungAnrede2": {
+      "data_type": "string",
+      "function": null
+    },
+    "AdressierungName2": {
+      "data_type": "string",
+      "function": null
+    },
+    "AdressierungVorname2": {
+      "data_type": "string",
+      "function": null
+    },
+    "AdressierungStrasse2": {
+      "data_type": "string",
+      "function": null
+    },
+    "AdressierungHausnummer2": {
+      "data_type": "string",
+      "function": null
+    },
+    "AdressierungPLZ2": {
+      "data_type": "integer",
+      "function": "random_int",
+      "min": 100,
+      "max": 200
+    },
+    "AdressierungOrt2": {
+      "data_type": "string",
+      "function": null
+    },
+    "AdressierungTelefonPrivat2": {
+      "data_type": "string",
+      "function": null
+    },
+    "AdressierungTelefonGeschäft2": {
+      "data_type": "string",
+      "function": null
+    },
+    "AdressierungNatel2": {
+      "data_type": "string",
+      "function": null
+    },
+    "AdressierungEMail2": {
+      "data_type": "string",
+      "function": null
+    }
+  }
+}

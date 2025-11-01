@@ -1,6 +1,6 @@
 # PII Toolbox
 
-A user-friendly **Streamlit app** that enables you to pseudonymize sensitive data in **CSV** or **XLSX** files based on a customizable configuration file.
+A user-friendly **Streamlit app** that enables you to anonymize sensitive data in **CSV** or **XLSX** files based on a customizable configuration file.
 
 ## Installation
 
@@ -8,8 +8,8 @@ A user-friendly **Streamlit app** that enables you to pseudonymize sensitive dat
 - Upload **CSV** or **XLS/XLSX** files containing sensitive data.
 - Generate a generic configuration file template based on the uploaded data.
 - Provide a configuration file to define pseudonymization rules for each column.
-- Pseudonymize the data interactively with options for review.
-- Download the pseudonymized file for further use.
+- anonymize the data interactively with options for review.
+- Download the anonymized file for further use.
 - Anonymize text data using the opensource [MS presidio](https://microsoft.github.io/presidio/) framework.
 
 ---
@@ -17,19 +17,19 @@ A user-friendly **Streamlit app** that enables you to pseudonymize sensitive dat
 ## How It Works
 
 1. **Upload the Data File**:
-   - Choose a **CSV** or **XLS/XLSX** file containing the data you want to pseudonymize.
+   - Choose a **CSV** or **XLS/XLSX** file containing the data you want to anonymize.
 
 2. **Upload the Configuration File**:
    - Provide a JSON configuration file that specifies:
-     - Columns to pseudonymize.
+     - Columns to anonymize.
      - The pseudonymization rules for each column (e.g., fake names, email addresses).
 
-3. **Pseudonymization Process**:
+3. **Anonymizsation Process**:
    - The app applies the rules defined in the configuration file to the data.
-   - Review and verify the pseudonymized output in the app.
+   - Review and verify the anonymized output in the app.
 
 4. **Download the Result**:
-   - Download the pseudonymized file for secure use or further processing.
+   - Download the anonymized file for secure use or further processing.
 
 ---
 
@@ -40,31 +40,31 @@ The configuration file is a JSON file where each column in the dataset that requ
 ```json
 {
     "student_id": {
-        "pseudonymize": true,
+        "anonymize": true,
         "not_null": true,
         "faker_function": "random_number",
         "faker_function_input_parameters": {"min_value": 200000, "max_value": 700000, "unique": true}
     },
     "student_name": {
-        "pseudonymize": true,
+        "anonymize": true,
         "faker_function": "last_name",
         "faker_function_input_parameters": {}
     },
     "student_gender": {
-        "pseudonymize": false,
+        "anonymize": false,
         "faker_function": null
     },
     "addresse": {
-        "pseudonymize": true,
+        "anonymize": true,
         "faker_function": "address",
         "faker_function_input_parameters": {"unique_address_fields": ["adress", "postal_code"], "location_code_col": "plz", "location_data_col": "postal_code"}
     },
 }
 ```
 
-## Pseudonymizer functions
+## anonymizer functions
 
-The pseudonymizer supports various functions to generate fake data. Here are some examples. a documentation of all functions is included in the GUI and the menu item Funktionen.
+The anonymizer supports various functions to generate fake data. Here are some examples. a documentation of all functions is included in the GUI and the menu item Funktionen.
 
 
 ## Opendata
