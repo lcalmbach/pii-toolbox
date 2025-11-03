@@ -1,7 +1,8 @@
-import io
+import io 
 import streamlit as st
 from streamlit_option_menu import option_menu
 import json
+from datetime import datetime
 from pathlib import Path
 import mimetypes
 from enum import Enum
@@ -13,13 +14,13 @@ import re
 
 from functions import show_functions
 import anonymizer_data
-import anonymizer_text
+import anonymizer_docs
 import texts
 
-__version__ = "0.0.8"
+__version__ = "0.0.10"
 __author__ = "lukas.calmbach@bs.ch"
 AUTHOR_NAME = 'Lukas Calmbach'
-VERSION_DATE = "2025-10-31"
+VERSION_DATE = "2025-11-03"
 APP_NAME = "PII Toolbox"
 app_emoji = "🗣️"
 
@@ -332,7 +333,7 @@ def anonymize_text():
     def extract_text_from_file(_uploaded_file):
         file_extension = Path(_uploaded_file.name).suffix.lower()
 
-        valid_extensions = {'.pdf', '.txt', '.tab', '.csv'}
+        valid_extensions = {'.pdf', '.txt', '.tab', '.csv', ".xlsx", ".xls"}
         if file_extension not in valid_extensions:
             raise ValueError(f"Invalid file type. Supported: {', '.join(sorted(valid_extensions))}")
 
@@ -345,13 +346,13 @@ def anonymize_text():
                 for page in pdf_reader:
                     # get_text() == get_text("text")
                     parts.append(page.get_text())
-                text = "\n".join(parts)
+                result = "\n".join(parts).strip()
 
             elif file_extension == '.txt':
                 _uploaded_file.seek(0)
                 raw_data = _uploaded_file.read()
                 enc = chardet.detect(raw_data).get('encoding') or 'utf-8'
-                text = raw_data.decode(enc, errors='replace')
+                result = raw_data.decode(enc, errors='replace')
 
             elif file_extension in ('.csv', '.tab'):
                 _uploaded_file.seek(0)
@@ -362,12 +363,16 @@ def anonymize_text():
                 _uploaded_file = io.StringIO(raw.decode(enc, errors='replace'))
                 df = pd.read_csv(_uploaded_file, sep=sep)
                 # Serialize table to readable text (not CSV again)
-                text = df.to_string(index=False)
-
+                result = df.to_string(index=False)
+            elif file_extension in ('.xls', '.xlsx'):
+                # Reset pointer to start of file
+                _uploaded_file.seek(0)
+                # Read Excel directly into a dataframe
+                result = pd.read_excel(_uploaded_file)
         except Exception as e:
             raise Exception(f"Error processing {file_extension} file: {e}")
 
-        return text.strip()
+        return result
 
     with st.expander('Hilfe'):
         st.markdown(texts.anonymize_texts)
@@ -375,27 +380,70 @@ def anonymize_text():
     options = ["Interaktive Texteingabe", "Dokument hochladen", "Demo"]
     mode = st.radio("Eingabemethode wählen:", options)
 
-    def display_and_anonymize(extracted_text: str, button_key: str):
+    def display_and_anonymize_text(extracted_text: str):
         st.session_state.text = extracted_text
         st.text_area("Extrahierter Text", extracted_text, height=300)
-        if st.button('Text Anonymisieren', key=button_key):
-            p = anonymizer_text.TextAnonymizer(extracted_text)
-            st.write(p.anonymize())
+        if st.button('Text Anonymisieren'):
+            p = anonymizer_docs.TextAnonymizer()
+            st.write(p.anonymize_text(extracted_text))
+
+    def display_and_anonymize_dataframe(extracted_df):
+        st.session_state.dataframe = extracted_df
+        st.dataframe(extracted_df)
+
+        if st.button('Tabelle Anonymisieren'):
+            p = anonymizer_docs.TextAnonymizer()
+
+            # Anonymisieren
+            anon_df = p.anonymize_table(extracted_df)
+            st.dataframe(anon_df)
+
+            # Excel in Memory erzeugen
+            xlsx_buffer = io.BytesIO()
+            with pd.ExcelWriter(xlsx_buffer, engine="xlsxwriter") as writer:
+                anon_df.to_excel(writer, index=False, sheet_name="Anonymisiert")
+            xlsx_buffer.seek(0)
+
+            # Dateiname mit Timestamp
+            fname = f"anonymisiert_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
+
+            # Download-Button für die anonymisierte Tabelle (Excel)
+            st.download_button(
+                label="Anonymisierte Tabelle als Excel herunterladen",
+                data=xlsx_buffer,
+                file_name=fname,
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            )
+
+            # Optional: vorhandene Konfigurationsdatei ebenfalls anbieten
+            if st.session_state.get("config_file"):
+                mime_type = st.session_state.get(
+                    "config_mime",
+                    "application/octet-stream"  # Fallback, falls du keinen spezifischen Typ setzt
+                )
+                with open(st.session_state.config_file, "rb") as fh:
+                    st.download_button(
+                        label="Konfiguration herunterladen",
+                        data=fh.read(),
+                        file_name=Path(st.session_state.config_file).name,
+                        mime=mime_type,
+                    )
 
     if mode == options[0]:
         # Interactive input
         text = st.text_area("Text")
         if st.button('Text Anonymisieren', key='anon_interactive'):
-            p = anonymizer_text.TextAnonymizer(text)
+            p = anonymizer_docs.TextAnonymizer(text)
             st.write(p.anonymize())
-
     elif mode == options[1]:
         # Uploaded document
-        uploaded_file = st.file_uploader("Datei hochladen", type=["pdf", "txt", "csv", "tab"])
+        uploaded_file = st.file_uploader("Datei hochladen", type=["pdf", "txt", "csv", "tab", "xlsx", "xls"])
         if uploaded_file:
             extracted = extract_text_from_file(uploaded_file)
-            display_and_anonymize(extracted, button_key='anon_upload')
-
+            if type(extracted)==str:
+                display_and_anonymize_text(extracted)
+            else:
+                display_and_anonymize_dataframe(extracted)
     else:
         # Demo: load demo PDF and reuse same display logic
         if demo_pdf.exists():
@@ -405,7 +453,7 @@ def anonymize_text():
             demo_file.name = demo_pdf.name
             st.success("Demo-Datei geladen")
             extracted = extract_text_from_file(demo_file)
-            display_and_anonymize(extracted, button_key='anon_demo')
+            display_and_anonymize_text(extracted)
         else:
             st.warning(f"Demo-Datei nicht gefunden unter {demo_folder}. Bitte lege demo_pdf.pdf dort ab.")
 

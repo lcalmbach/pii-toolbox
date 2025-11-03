@@ -7,8 +7,8 @@ A user-friendly **Streamlit app** that enables you to anonymize sensitive data i
 ## Features
 - Upload **CSV** or **XLS/XLSX** files containing sensitive data.
 - Generate a generic configuration file template based on the uploaded data.
-- Provide a configuration file to define pseudonymization rules for each column.
-- anonymize the data interactively with options for review.
+- Provide a configuration file to define anonymization rules for each column.
+- Anonymize the data interactively with options for review.
 - Download the anonymized file for further use.
 - Anonymize text data using the opensource [MS presidio](https://microsoft.github.io/presidio/) framework.
 
@@ -22,7 +22,7 @@ A user-friendly **Streamlit app** that enables you to anonymize sensitive data i
 2. **Upload the Configuration File**:
    - Provide a JSON configuration file that specifies:
      - Columns to anonymize.
-     - The pseudonymization rules for each column (e.g., fake names, email addresses).
+     - The anonymization rules for each column (e.g., fake names, email addresses).
 
 3. **Anonymizsation Process**:
    - The app applies the rules defined in the configuration file to the data.
@@ -35,7 +35,7 @@ A user-friendly **Streamlit app** that enables you to anonymize sensitive data i
 
 ## Configuration File Format
 
-The configuration file is a JSON file where each column in the dataset that requires pseudonymization is defined. Below is an example:
+The configuration file is a JSON file where each column in the dataset that requires anonymization is defined. Below is an example:
 
 ```json
 {
@@ -62,10 +62,4 @@ The configuration file is a JSON file where each column in the dataset that requ
 }
 ```
 
-## anonymizer functions
-
-The anonymizer supports various functions to generate fake data. Here are some examples. a documentation of all functions is included in the GUI and the menu item Funktionen.
-
-
-## Opendata
-The addresses and street names are generated using a dataset from [data.bs](https://data.bs.ch/explore/dataset/100259) in order to generate familiar addresses. generating addresses requires a location field, which is either the location name or a postal code. If no postal code from Basel-Stadt Switzerland is provided, the faker.street() function is used to generate the street names.
+A complete list of available functions can be found under the menu option `Functionen`
